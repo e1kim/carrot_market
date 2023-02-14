@@ -1,19 +1,19 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="index.css">
-  <title>index.html</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>업로드</title>
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" 
   integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
 
 </head>
 <body>
 
-  <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-firestore.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-storage.js"></script>
@@ -69,36 +69,44 @@
     </div>
   </div>
 </nav>
-
 <div class="container mt-3">
-  
+    <input type="text" class="form-control mt-2" id="title" placeholder="title">
+    <textarea class="form-control mt-2" id="content">content</textarea>
+    <input type="text" class="form-control mt-2" id="price" placeholder="price">
+    <input class="form-control mt-2" type="file" id="image">
+    <button class="btn btn-danger mt-3" id="send">올리기</button>
 </div>
 
-
-
 <script>
-  const DB = firebase.firestore();
-  DB.collection('product').get().then((결과)=>{
-    결과.forEach((doc)=>{
-      console.log(doc)
-      var 템플릿 = `<div class="product">
-    <div class="thumbnail" style="background-image: url('https://via.placeholder.com/350')"></div>
-    <div class="flex-grow-1 p-4">
-      <h5 class="title">${doc.data().제목}</h5>
-      <p class="date">${doc.data().가격}</p>
-      <p class="price">${doc.data().설명}</p>
-      
-    </div>
-  </div>`;
-      $('.container').append(템플릿)
-    })
-  })
+    const db = firebase.firestore()
+    const storage = firebase.storage()
 
+
+    $('#send').click(function(){
+        var file = document.querySelector('#image').files[0]
+        var storageRef = storage.ref();
+        var 저장경로 = storageRef.child('image/'+file.name) 
+        var 업로드작업 = 저장경로.put(file)
+        var 저장할거 = {
+            제목: $('#title').val(),
+            가격: $('#price').val(),
+            설명: $('#content').val(),
+            날짜: new Date()
+
+
+        }
+        db.collection('product').add(저장할거).then((result)=>{
+            window.location.href = "index.html";
+        }).catch((error)=>{
+            console.log(err)
+            
+        })
+    });
+
+    
 </script>
 
-
+    
+    
 </body>
-
-
-
 </html>
