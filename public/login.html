@@ -82,8 +82,55 @@
       <input type="password" class="form-control" placeholder="pw" id="pw-new">
     </div>
     <button type="submit" class="btn btn-primary" id="register">가입하기</button>
- </div>
+</div>
+<div class="container mt-3">
+    
+    <div class="mb-3">
+      <input type="email" class="form-control" placeholder="email" id="email-login">
+    </div>
+    <div class="mb-3">
+      <input type="password" class="form-control" placeholder="pw" id="pw-login">
+    </div>
+    <button type="submit" class="btn btn-primary" id="login">로그인하기</button>
+    <button type="submit" class="btn btn-primary" id = "logout">로그아웃</button>
+</div>
+<script>
+    const db = firebase.firestore();
+    const storage = firebase.storage();
 
+    $('#logout').click(function(){
+        firebase.auth().signOut()
+    })
+    
+    $('#register').click(function(){
+        var 이름 = $('#name-new').val();
+        var 이메일 = $('#email-new').val();
+        var 패스워드 = $('#pw-new').val();
+
+        firebase.auth().createUserWithEmailAndPassword(이메일,패스워드).then((result)=>{
+            console.log(result.user);
+            result.user.updateProfile({displayName : 이름}).then()
+        });
+    });
+
+    $('#login').click(function(){
+        var 이메일 = $('#email-login').val();
+        var 패스워드 = $('#pw-login').val();
+
+        firebase.auth().signInWithEmailAndPassword(이메일,패스워드).then((result)=>{
+            console.log(result.user)
+        })
+
+    });
+
+
+
+    
+
+    
+
+
+</script>
 
 </body>
 
