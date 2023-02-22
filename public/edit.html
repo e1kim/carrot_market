@@ -101,7 +101,13 @@
             
         }
 
-        db.collection('product').doc(쿼리스트링.get('id')).update(바꿀거)
+        
+
+        db.collection('product').doc(쿼리스트링.get('id')).update(바꿀거).then((result)=>{
+            window.location.href = "index.html";
+        }).catch((error)=>{
+            console.log(error)
+        })
 
     })
     
