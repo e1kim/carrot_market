@@ -4,12 +4,12 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>로그인</title>
+  <link rel="stylesheet" href="index.css">
+  <title>채팅하기</title>
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" 
   integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-
+  
 </head>
 <body>
 
@@ -40,15 +40,14 @@
 <!-- 네비게이션 바 -->
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Market</a>
+    <a class="navbar-brand" href="#">Navbar</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav">
         <li class="nav-item">
-          
-          <span class="nav-link active" id="userName">유저이름</span>
+          <a class="nav-link active" aria-current="page" href="#">Home</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">Features</a>
@@ -72,93 +71,21 @@
 </nav>
 
 
-<div class="container mt-3">
-    <div class="mb-3">
-      <input type="text" class="form-control" placeholder="name" id="name-new">
-    </div>
-    <div class="mb-3">
-      <input type="email" class="form-control" placeholder="email" id="email-new">
-    </div>
-    <div class="mb-3">
-      <input type="password" class="form-control" placeholder="pw" id="pw-new">
-    </div>
-    <button type="submit" class="btn btn-primary" id="register">가입하기</button>
-</div>
-<div class="container mt-3">
+<div class="container">
+   채팅하기페이지입니다.
     
-    <div class="mb-3">
-      <input type="email" class="form-control" placeholder="email" id="email-login">
-    </div>
-    <div class="mb-3">
-      <input type="password" class="form-control" placeholder="pw" id="pw-login">
-    </div>
-    <button type="submit" class="btn btn-primary" id="login">로그인하기</button>
-    <button type="submit" class="btn btn-primary" id = "logout">로그아웃</button>
 </div>
+
+
 <script>
-    const db = firebase.firestore();
-    const storage = firebase.storage();
-
-    $('#register').click(function(){
-        var 이름 = $('#name-new').val();
-        var 이메일 = $('#email-new').val();
-        var 패스워드 = $('#pw-new').val();
-
-        firebase.auth().createUserWithEmailAndPassword(이메일,패스워드).then((result)=>{
-            var 유저정보 = {
-                    name : 이름,
-                    email: 이메일,
-                    password: 패스워드
-                }
-                db.collection('user').doc(result.user.uid).set(유저정보)
-                console.log(result.user);
-                result.user.updateProfile({displayName : 이름}).then();
-        });
-    });
-    
-    //유저정보 
-
-    if(localStorage.getItem('user')!=null){
-      var 뺀거 = localStorage.getItem('user')//스트링 파일임 JSON으로 변환했잖음
-      $('#userName').html(JSON.parse(뺀거).displayName)//다시 오브젝트로 변환해줌
-    }
-    
-    firebase.auth().onAuthStateChanged((user)=>{
-      if (user){
-        console.log(user.uid)
-        console.log(user.displayName)
-        localStorage.setItem('user',JSON.stringify(user))
-        
-      }
-    })
-
-    $('#logout').click(function(){
-        firebase.auth().signOut()
-        //로그아웃 했을 때 로컬 스토리지에 유저 정보 삭제
-        localStorage.removeItem('user')
-    })
-    
-    
-
-    $('#login').click(function(){
-        var 이메일 = $('#email-login').val();
-        var 패스워드 = $('#pw-login').val();
-        
-
-        firebase.auth().signInWithEmailAndPassword(이메일,패스워드).then((result)=>{
-            console.log(result.user)
-        })
-
-    });
+  const DB = firebase.firestore();
 
 
-
-    
-
-    
-
+  
+  
 
 </script>
+
 
 </body>
 

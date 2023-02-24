@@ -73,16 +73,17 @@
 
 <div class="container">
    <button id = "edit">수정하기</button>
+   <button id = "chat">채팅하기</button>
     
 </div>
 
 
 <script>
-  const DB = firebase.firestore();
+  const db = firebase.firestore();
   
   var 쿼리스트링 = new URLSearchParams(window.location.search);
   
-  DB.collection('product').doc(쿼리스트링.get('id')).get().then((result)=>{
+  db.collection('product').doc(쿼리스트링.get('id')).get().then((result)=>{
     console.log(result.data())
     var 템플릿 = `
     <div class="detail-pic my-4" style="background-image: url('${result.data().이미지}');"></div>
@@ -99,9 +100,24 @@
       $('.container').append(템플릿)
   })
 
-  
+  //수정하기 페이지
   $('#edit').click(function(){
     window.location.href = 'edit.html?id=' + 쿼리스트링.get('id')
+  })
+  //채팅하기 페이지
+  $('#chat').click(function(){
+
+        var 채팅정보 = {
+          uid : JSON.parse( localStorage.getItem('user') ).uid,
+          날짜: new Date()
+        }
+        db.collection('chatroom').add(채팅정보).then((result)=>{
+          window.location.href = 'chat.html?id=' + 쿼리스트링.get('id')
+        }).catch((error)=>{
+            console.log(error)
+        })
+        
+    
   })
 
   
