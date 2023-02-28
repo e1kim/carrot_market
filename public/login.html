@@ -146,7 +146,9 @@
         
 
         firebase.auth().signInWithEmailAndPassword(이메일,패스워드).then((result)=>{
-            console.log(result.user)
+          window.location.href = 'chat.html?id=' + 쿼리스트링.get('id')
+        }).catch((error)=>{
+            console.log(error)
         })
 
     });
